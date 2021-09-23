@@ -1,10 +1,13 @@
-import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Divider, Drawer, Grid, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import logo from "../../assets/logo.svg";
+import searchIcon from '../../assets/Group 99.svg';
 
 const useStyles = makeStyles({
   list: {
@@ -12,6 +15,20 @@ const useStyles = makeStyles({
   },
   fullList: {
     width: "auto",
+  },
+  burgerMenu: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+  },
+  headerContainer: {
+    backgroundColor: "#F4F4F4",
+    border: "1px solid #707070",
+    position: "relative",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: 'column !important'
   },
 });
 
@@ -23,7 +40,8 @@ const Header = () => {
     bottom: false,
     right: false,
   });
-
+  const history = useHistory()
+  console.log(history)
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
@@ -96,14 +114,25 @@ const Header = () => {
   );
 
   return (
-    <>
-      <IconButton>
-        <MenuIcon onClick={toggleDrawer("left", true)} />
-      </IconButton>
+    <Grid container className={classes.headerContainer}>
+      <div className={classes.burgerMenu}>
+        <IconButton onClick={toggleDrawer("left", true)} >
+          <MenuIcon color="primary" />
+        </IconButton>
+      </div>
+      <div className={classes.logo} onClick={() => history.push('/')}>
+        <img src={logo} alt={`logo`} width={80} height={80} />
+      </div>
+      <div className={classes.search}>
+        <input />
+        <button>
+          <img src={searchIcon} alt={'searchLogo'}/>
+        </button>
+      </div>
       <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
         {list("left")}
       </Drawer>
-    </>
+    </Grid>
   );
 };
 
