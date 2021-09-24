@@ -1,0 +1,11 @@
+.swiper-wrapper {
+	padding-bottom: 50px !important;
+}
+
+.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+	bottom: 15px !important
+}
+
+.swiper-pagination-bullet-active {
+	background-color: #515151 !important;
+}
