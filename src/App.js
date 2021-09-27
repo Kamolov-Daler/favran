@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './components/Footer/Footer'
 import Main from './components/Main/Main'
 import { makeStyles } from "@mui/styles";
+import Category from './components/Category/Category';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,8 +46,8 @@ function App() {
 					<Route path={`/`} exact>
 						<Main />
 					</Route>
-					<Route path={`/search`} exact>
-						<h1>Search</h1>
+					<Route path={`/test`} exact>
+						<Category />
 					</Route>
 				</Switch>
 				<Footer />

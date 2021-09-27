@@ -72,7 +72,10 @@ const useStyles = makeStyles((theme) => ({
 			width: 15,
 		},
 		marginLeft: '7px',
-	}
+	},
+	logo: {
+		cursor: 'pointer',
+	},
 }));
 
 

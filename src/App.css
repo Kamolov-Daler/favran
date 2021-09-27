@@ -1,5 +1,5 @@
 .swiper-wrapper {
-	padding-bottom: 50px !important;
+	padding-bottom: 40px !important;
 }
 
 .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
@@ -9,3 +9,8 @@
 .swiper-pagination-bullet-active {
 	background-color: #515151 !important;
 }
+
+
+
+
+
