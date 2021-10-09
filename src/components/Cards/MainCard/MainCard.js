@@ -2,6 +2,11 @@ import { Grid, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import insta from '../../../assets/instagramm.svg'
 import eye from '../../../assets/eye.svg';
+import { imgUrl } from '../../../config';
+import logo from '../../../assets/logo.svg'
+import king from '../../../assets/king.svg';
+
+
 
 const useStyles = makeStyles((theme) => ({
 	cardContainer: {
@@ -62,24 +67,46 @@ const useStyles = makeStyles((theme) => ({
 		position: 'absolute',
 		bottom: '10px',
 		right: '10px',
-	}
+	},
+	cardTop: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		position: 'absolute',
+		right: '0px',
+		top: '0px',
+		zIndex: 3,
+		'& img': {
+			width: 60,
+			height: 60,
+		},
+	},
 }));
 
 
-const MainCard = () => {
+const MainCard = ({ item }) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.cardContainer}>
 			<div className={classes.cardImg}>
-				<img src={insta} alt="insta" />
+				{item.images ?
+					<img src={`${imgUrl}${item.images[0].replaceAll('PNG', 'png')}`} alt="insta" />
+					: <img src={logo} alt="insta" />
+				}
 			</div>
-			<div className={classes.cardTitle}>кожанные туфли, Armani</div>
-			<div className={classes.cardPrice}>2000c 1500c</div>
+			<div className={classes.cardTitle}>{item.name}</div>
+			<div className={classes.cardPrice}>{item.old_price}  {item.new_price}</div>
 			<div className={classes.cardDiscount}></div>
-			<div className={classes.cardDiscountPercent}>25%</div>
+			<div className={classes.cardDiscountPercent}>{item.discount_amount}%</div>
 			<div className={classes.cardViewed}>
-				<img src={eye} alt="eye" />55
+				<img src={eye} alt="eye" />{item.Views}
 			</div>
+			{item.is_top ?
+				<div className={classes.cardTop}>
+					<img src={king} alt="eye" />
+				</div>
+				: null
+			}
 		</div>
 	)
 }

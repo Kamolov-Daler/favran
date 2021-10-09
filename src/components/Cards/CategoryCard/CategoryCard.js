@@ -1,12 +1,12 @@
 import { Grid, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import insta from '../../../assets/instagramm.svg'
+import logo from '../../../assets/logo.svg'
 import eye from '../../../assets/eye.svg';
 import king from '../../../assets/king.svg';
-
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import SwiperCore, { Navigation, Pagination, Autoplay, Scrollbar, Keyboard } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import { imgUrl } from '../../../config';
 import '../../../App.css'
 
 import styles from '../Card.module.css'
@@ -15,6 +15,7 @@ import styles from '../Card.module.css'
 import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/pagination/pagination.min.css";
+import { SET_SELECT_ITEM, addView } from '../../../store/action/categories';
 SwiperCore.use([Navigation, Pagination, Autoplay, Scrollbar, Keyboard]);
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,16 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'hidden',
 		background: '#f5f5f5',
 		padding: '10px',
+	},
+	cardContainerBack: {
+		height: 320,
+		width: 220,
+		borderRadius: 8,
+		border: '1px solid rgba(81, 81, 81, 0.56)',
+		position: 'relative',
+		overflow: 'hidden',
+		background: '#f5f5f5',
+		padding: '10px 15px',
 	},
 	cardImg: {
 		display: 'flex',
@@ -82,19 +93,41 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		position: 'absolute',
-		right: '-5px',
-		top: '-10px',
+		right: '0px',
+		top: '0px',
 		zIndex: 3,
 		'& img': {
-			width: 80,
-			height: 80,
+			width: 60,
+			height: 60,
 		},
 	},
+	cardTopText: {
+		border: '1px solid #F3EA64',
+		color: '#F3EA64',
+		textAlign: 'center',
+		marginTop: '15px',
+		padding: 10,
+		borderRadius: '6px',
+	},
+	cardInfo: {
+		textAlign: 'center',
+		color: '#707070',
+		fontWeight: 700,
+		marginTop: 15,
+		marginBottom: 15,
+	},
+	cardGoods: {
+		color: '#707070',
+		fontWeight: 600,
+		marginBottom: 5,
+	}
 }));
 
 
-const CategoryCard = ({ bool }) => {
+const CategoryCard = ({ bool, item }) => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const { itemSelect } = useSelector((state) => state.categoriesReducer, shallowEqual)
 
 	const options = {
 		slidesPerView: 1,
@@ -102,38 +135,71 @@ const CategoryCard = ({ bool }) => {
 		pagination: { clickable: true },
 	};
 
+	const clickCard = (e) => {
+		e.preventDefault();
+		dispatch(itemSelect === item.id ? { type: SET_SELECT_ITEM, payload: 0 } : { type: SET_SELECT_ITEM, payload: item.id })
+		dispatch(addView(item.id))
+	}
+
 	return (
-		<div className={styles.card}>
+		<div className={styles.card} onClick={e => clickCard(e)}>
 			<div className={bool ? styles.frontActive : styles.front}>
 				<div className={classes.cardContainer}>
 					<div>
-						<Swiper {...options}>
-							<SwiperSlide className={classes.cardImg}>
-								<img src={insta} alt="insta" />
-							</SwiperSlide>
-							<SwiperSlide className={classes.cardImg}>
-								<img src={insta} alt="insta" />
-							</SwiperSlide>
-							<SwiperSlide className={classes.cardImg}>
-								<img src={insta} alt="insta" />
-							</SwiperSlide>
-						</Swiper>
+						{item.images?.length ?
+							<Swiper {...options}>
+								{item.images.map((item, idx) =>
+									<SwiperSlide key={idx} className={classes.cardImg}>
+										<img src={`${imgUrl}${item.replaceAll('PNG', 'png')}`} alt="insta" />
+									</SwiperSlide>
+								)}
+							</Swiper>
+							:
+							<Swiper {...options}>
+								<SwiperSlide className={classes.cardImg}>
+									<img src={logo} alt="insta" />
+								</SwiperSlide>
+							</Swiper>
+						}
 					</div>
-					<div className={classes.cardTitle}>кожанные туфли, Armani</div>
-					<div className={classes.cardPrice}>2000c 1500c</div>
+					<div className={classes.cardTitle}>{item.name}</div>
+					<div className={classes.cardPrice}>{item.old_price}  {item.new_price}</div>
 					<div className={classes.cardDiscount}></div>
-					<div className={classes.cardDiscountPercent}>25%</div>
+					<div className={classes.cardDiscountPercent}>{item.discount_amount}%</div>
 					<div className={classes.cardViewed}>
-						<img src={eye} alt="eye" />55
+						<img src={eye} alt="eye" />{item.Views}
 					</div>
-					<div className={classes.cardTop}>
-						<img src={king} alt="eye" />
-					</div>
+					{item.is_top ?
+						<div className={classes.cardTop}>
+							<img src={king} alt="eye" />
+						</div>
+						: null
+					}
 				</div>
 			</div>
 			<div className={bool ? styles.backActive : styles.back}>
-				<div className={classes.cardContainer}>
-					<h1>Hello</h1>
+				<div className={classes.cardContainerBack}>
+					{item.is_top ?
+						<div className={classes.cardTopText}>
+							товар в топе
+						</div>
+						: null
+					}
+					<div className={classes.cardInfo}>
+						Сведенье:
+					</div>
+					<div className={classes.cardGoods}>
+						Товар: {item.name}
+					</div>
+					<div className={classes.cardGoods}>
+						Магазин: {item.shop_name}
+					</div>
+					<div className={classes.cardGoods}>
+						Адрес магазина: {item.shop_address}
+					</div>
+					<div className={classes.cardGoods}>
+						Телефон магазина: <a href={`tel:${item.shop_phone}`} onClick={(e) => e.stopPropagation()}>{item.shop_phone}</a>
+					</div>
 				</div>
 			</div>
 		</div>

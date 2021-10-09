@@ -1,4 +1,4 @@
-import { Divider, Drawer, Grid, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Button, Divider, Drawer, Grid, List, ListItem, ListItemText, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { useState } from "react";
@@ -7,8 +7,9 @@ import { NavLink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../../assets/logo.svg";
-import searchIcon from '../../assets/Group 99.svg';
-import filterLogo from '../../assets/Group 98.svg'
+import { shallowEqual, useSelector } from 'react-redux';
+import { Box } from '@mui/system';
+import { FilterList, Search } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	headerContainer: {
 		backgroundColor: "#F4F4F4",
-		border: "1px solid #707070",
+		borderBottom: "1px solid #707070",
 		borderTop: 'none',
 		position: "relative",
 		display: "flex",
@@ -33,55 +34,63 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column !important'
 	},
 	search: {
-		width: '70%',
-		height: 30,
+		width: '90%',
 		display: 'flex',
-		paddingBottom: '30px',
+		justifyContent: 'center',
 		[theme.breakpoints.up("md")]: {
 			width: '40%',
 		},
-
-		'& button': {
-			borderTopLeftRadius: '0px',
-			borderBottomLeftRadius: '0px',
-			borderTopRightRadius: '8px',
-			borderBottomRightRadius: '8px',
-			outline: 'none',
-			border: '1px solid #707070',
-			backgroundColor: '#F3EA64',
-			cursor: 'pointer',
-		},
-		'& button img': {
-			height: 18,
-		},
-		'& input': {
-			width: '100%',
-			borderTopLeftRadius: '8px',
-			borderBottomLeftRadius: '8px',
-			borderTopRightRadius: '0px',
-			borderBottomRightRadius: '0px',
-			border: '1px solid #707070',
-			outline: 'none',
-			color: '#707070',
-			paddingLeft: '5px'
-		},
-	},
-	filterButton: {
-		borderRadius: '8px !important',
-		'& img': {
-			width: 15,
-		},
-		marginLeft: '7px',
 	},
 	logo: {
 		cursor: 'pointer',
 	},
+	navItem: {
+		'& a': {
+			textDecoration: 'none',
+			color: '#000',
+		},
+	},
+	buttonGroup: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		flexDirection: 'column',
+		width: '80%',
+		'& div': {
+			minWidth: '100%',
+			marginTop: 10,
+			[theme.breakpoints.up("md")]: {
+				maxWidth: '90%',
+			},
+		},
+		'& button': {
+			padding: '5px 0px',
+			marginLeft: '0px',
+			marginTop: '10px',
+			width: '100%',
+			[theme.breakpoints.up("md")]: {
+				padding: '15px 0',
+				flexDirection: 'row',
+				marginTop: '30px',
+				marginLeft: '10px',
+			},
+		},
+		[theme.breakpoints.up("md")]: {
+			flexDirection: 'row',
+		},
+	}
 }));
 
 
 const Header = () => {
 	const classes = useStyles();
-	const [state, setState] = useState({
+	const { categories } = useSelector((state) => state.mainReducer, shallowEqual);
+	const [filterActive, setFilterActive] = useState(false);
+	const [name, setName] = useState('');
+	const [discountAmount, setDiscountAmount] = useState('')
+	const [minPrice, setMinPrice] = useState('');
+	const [maxPrice, setMaxPrice] = useState('');
+	const [val, setVal] = useState({
 		top: false,
 		left: false,
 		bottom: false,
@@ -93,8 +102,26 @@ const Header = () => {
 			return;
 		}
 
-		setState({ ...state, [anchor]: open });
+		setVal({ ...val, [anchor]: open });
 	};
+
+	const searchGoods = () => {
+		let str = "";
+		if (name.trim()) {
+			str += '?name=' + name
+		}
+		if (discountAmount > 0) {
+			str += '&discount_amount' + discountAmount
+		}
+		if (minPrice > 0) {
+			str += '&min_price' + minPrice
+		}
+		if (maxPrice > 0) {
+			str += '&max_price' + maxPrice
+		}
+
+		history.push(`/search${str}`);
+	}
 
 	const list = (anchor) => (
 		<div
@@ -106,55 +133,24 @@ const Header = () => {
 			onKeyDown={toggleDrawer(anchor, false)}
 		>
 			<List>
-				<NavLink to="/" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={home} width={25} /> */}</ListItemIcon>
-						<ListItemText>test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
-				<NavLink to="/test" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={player} width={25} /> */}</ListItemIcon>
-						<ListItemText>test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
-				<NavLink to="/test" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={club} width={25} /> */}</ListItemIcon>
-						<ListItemText>test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
-				<NavLink to="/test" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={cup} width={25} /> */}</ListItemIcon>
-						<ListItemText>test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
-				<NavLink to="/test" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={stadium} width={25} /> */}</ListItemIcon>
-						<ListItemText>test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
-				<NavLink to="/test" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={school} width={25} /> */}</ListItemIcon>
-						<ListItemText>test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
-				<NavLink to="/test" exact>
-					<ListItem button>
-						<ListItemIcon>{/* <img src={store} width={25} /> */}</ListItemIcon>
-						<ListItemText>Test</ListItemText>
-					</ListItem>
-				</NavLink>
-				<Divider />
+				<div className={classes.navItem}>
+					<NavLink to={`/`} exact>
+						<ListItem button>
+							<ListItemText>Главная</ListItemText>
+						</ListItem>
+					</NavLink>
+					<Divider />
+				</div>
+				{categories.map((item, idx) =>
+					<div key={idx} className={classes.navItem}>
+						<NavLink to={`/${item.name}/${item.id}`} exact>
+							<ListItem button>
+								<ListItemText>{item.name}</ListItemText>
+							</ListItem>
+						</NavLink>
+						<Divider />
+					</div>
+				)}
 			</List>
 		</div>
 	);
@@ -162,7 +158,7 @@ const Header = () => {
 	return (
 		<Grid container className={classes.headerContainer}>
 			<div className={classes.burgerMenu}>
-				<IconButton onClick={toggleDrawer("left", true)} >
+				<IconButton disabled={categories.length > 1 ? false : true} onClick={toggleDrawer("left", true)} >
 					<MenuIcon color="primary" />
 				</IconButton>
 			</div>
@@ -170,15 +166,27 @@ const Header = () => {
 				<img src={logo} alt={`logo`} width={80} height={80} />
 			</div>
 			<div className={classes.search}>
-				<input />
-				<button className={classes.searchButton} onClick={() => console.log(1)}>
-					<img src={searchIcon} alt={'searchLogo'} />
-				</button>
-				<button className={classes.filterButton}>
-					<img src={filterLogo} alt={'searchLogo'} />
-				</button>
+				<Box mb={3} className={classes.buttonGroup}>
+					<Grid>
+						<TextField fullWidth id="standard-basic" value={name} onChange={(e) => setName(e.target.value)} label="Название" variant="filled" />
+						{filterActive ?
+							<>
+								<TextField fullWidth id="standard-basic" value={discountAmount} onChange={e => setDiscountAmount(e.target.value)} type="number" label="Процент скидки" variant="filled" />
+								<TextField id="standard-basic" type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} label="Цена от" variant="filled" />
+								<TextField id="standard-basic" type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} label="Цена до" variant="filled" />
+							</>
+							: null
+						}
+					</Grid>
+					<Button variant="contained" disabled={name.trim() || discountAmount > 0 || minPrice > 0 || maxPrice > 0 ? false : true} onClick={searchGoods}>
+						<Search />
+					</Button>
+					<Button variant='contained' onClick={() => setFilterActive(!filterActive)}>
+						<FilterList />
+					</Button>
+				</Box>
 			</div>
-			<Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
+			<Drawer anchor={"left"} open={val["left"]} onClose={toggleDrawer("left", false)}>
 				{list("left")}
 			</Drawer>
 		</Grid>

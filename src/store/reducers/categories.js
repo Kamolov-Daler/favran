@@ -1,10 +1,17 @@
+import { SET_CARDS_LIST, SET_SELECT_ITEM } from '../action/categories';
+
 const initialData = {
-  categoriesList: [],
+	itemSelect: 0,
+	cardsList: [],
 };
 
 export const categoriesReducer = (state = initialData, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case SET_CARDS_LIST:
+			return { ...state, cardsList: action.payload }
+		case SET_SELECT_ITEM:
+			return { ...state, itemSelect: action.payload }
+		default:
+			return state;
+	}
 };

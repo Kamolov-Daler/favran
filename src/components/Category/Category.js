@@ -1,7 +1,10 @@
-import { Grid, Container } from "@mui/material";
+import { Grid, Container, Alert } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CategoryCard from '../Cards/CategoryCard/CategoryCard';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
+import { getCategoriesListById, SET_CARDS_LIST, SET_SELECT_ITEM } from '../../store/action/categories';
 
 const useStyles = makeStyles((theme) => ({
 	categoryTitle: {
@@ -12,83 +15,48 @@ const useStyles = makeStyles((theme) => ({
 		padding: '20px',
 	},
 	cardElem: {
-		paddingBottom: '40px',
+		paddingBottom: '50px',
+		display: 'flex',
+		justifyContent: 'center',
+		[theme.breakpoints.up("md")]: {
+			justifyContent: 'flex-start',
+		},
+	},
+	parentContainer: {
+		paddingBottom: 50,
 	}
 }));
 
 const Category = () => {
 	const classes = useStyles();
-	const [val, setVal] = useState(0);
-	const [arr, setArr] = useState([
-		{
-			id: 1,
-			bool: false,
-		},
-		{
-			id: 2,
-			bool: false,
-		},
-		{
-			id: 3,
-			bool: false,
-		},
-		{
-			id: 4,
-			bool: false,
-		},
-		{
-			id: 5,
-			bool: false,
-		},
-		{
-			id: 6,
-			bool: false,
-		},
-		{
-			id: 7,
-			bool: false,
-		},
-		{
-			id: 8,
-			bool: false,
-		},
-		{
-			id: 9,
-			bool: false,
-		},
-		{
-			id: 10,
-			bool: false,
-		},
-		{
-			id: 11,
-			bool: false,
-		},
-		{
-			id: 12,
-			bool: false,
-		},
-		{
-			id: 13,
-			bool: false,
-		},
-		{
-			id: 14,
-			bool: false,
-		},
-	])
+	const { name, id } = useParams()
+	const { itemSelect, cardsList } = useSelector((state) => state.categoriesReducer, shallowEqual)
+	const { loader } = useSelector((state) => state.mainReducer, shallowEqual);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getCategoriesListById(id))
+		return () => {
+			dispatch({ type: SET_CARDS_LIST, payload: [] })
+			dispatch({ type: SET_SELECT_ITEM, payload: 0 })
+		}
+	}, [name, id])
+
 
 	return (
-		<Container>
-			<h1 className={classes.categoryTitle}>Все скидки по категории "Одежда"</h1>
+		<Container className={classes.parentContainer}>
+			<h1 className={classes.categoryTitle}>{name}</h1>
 
-			<Grid container>
-				{arr.map((item, idx) =>
-					<Grid key={idx} item xs={12} sm={6} md={4} lg={3} onClick={() => setVal(item.id === val ? 0 : item.id)} className={classes.cardElem}>
-						<CategoryCard bool={item.id === val ? true : false} />
-					</Grid>
-				)}
-			</Grid>
+			{cardsList.length ?
+				<Grid container>
+					{cardsList?.map((item, idx) =>
+						<Grid key={idx} item xs={12} sm={6} md={4} lg={3} className={classes.cardElem}>
+							<CategoryCard item={item} bool={item.id === itemSelect ? true : false} />
+						</Grid>
+					)}
+				</Grid>
+				: <>{!loader ? <Alert severity="info">Нет товаров</Alert> : null}</>
+			}
 		</Container>
 	)
 }

@@ -5,6 +5,10 @@ import Footer from './components/Footer/Footer'
 import Main from './components/Main/Main'
 import { makeStyles } from "@mui/styles";
 import Category from './components/Category/Category';
+import { Backdrop, CircularProgress } from '@mui/material';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getMainInfo, SET_BANNERS, SET_TOP_CATEGORIES_WITH_GOODS } from './store/action/main';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
 	const classes = useStyles()
+	const { loader, categories } = useSelector((state) => state.mainReducer, shallowEqual)
+	const dispatch = useDispatch();
 	const theme = createTheme(
 		{
 			palette: {
@@ -38,6 +44,14 @@ function App() {
 		},
 	);
 
+	useEffect(() => {
+		dispatch(getMainInfo())
+		return () => {
+			dispatch({ type: SET_BANNERS, payload: [] })
+			dispatch({ type: SET_TOP_CATEGORIES_WITH_GOODS, payload: [] })
+		}
+	}, [])
+
 	return (
 		<ThemeProvider theme={theme}>
 			<div className={classes.container}>
@@ -46,11 +60,17 @@ function App() {
 					<Route path={`/`} exact>
 						<Main />
 					</Route>
-					<Route path={`/test`} exact>
+					<Route path={`/:name/:id`} exact>
 						<Category />
 					</Route>
 				</Switch>
 				<Footer />
+				<Backdrop
+					sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+					open={loader}
+				>
+					<CircularProgress color="inherit" />
+				</Backdrop>
 			</div>
 		</ThemeProvider>
 	);

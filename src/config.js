@@ -1,0 +1,2 @@
+export const apiUrl = process.env.NODE_ENV === 'production' ? "https://favran.herokuapp.com/" : "https://favran.herokuapp.com/";
+export const imgUrl = process.env.NODE_ENV === 'production' ? "https://favran.herokuapp.com/get_image/" : "https://favran.herokuapp.com/get_image/";
