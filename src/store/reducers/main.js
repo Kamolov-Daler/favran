@@ -1,10 +1,11 @@
-import { SET_BANNERS, SET_CATEGORIES, SET_LOADER, SET_TOP_CATEGORIES_WITH_GOODS } from '../action/main';
+import { SET_BANNERS, SET_CATEGORIES, SET_LOADER, SET_SOCIALS_LIST, SET_TOP_CATEGORIES_WITH_GOODS } from '../action/main';
 
 const initialData = {
 	categories: [],
 	banners: [],
 	topCategories: [],
 	loader: false,
+	socials: null,
 }
 
 export const mainReducer = (state = initialData, action) => {
@@ -17,6 +18,8 @@ export const mainReducer = (state = initialData, action) => {
 			return { ...state, topCategories: action.payload };
 		case SET_LOADER:
 			return { ...state, loader: action.payload };
+		case SET_SOCIALS_LIST:
+			return { ...state, socials: action.payload };
 		default:
 			return state;
 	}

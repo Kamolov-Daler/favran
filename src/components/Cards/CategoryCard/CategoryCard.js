@@ -150,7 +150,7 @@ const CategoryCard = ({ bool, item }) => {
 							<Swiper {...options}>
 								{item.images.map((item, idx) =>
 									<SwiperSlide key={idx} className={classes.cardImg}>
-										<img src={`${imgUrl}${item.replaceAll('PNG', 'png')}`} alt="insta" />
+										<img src={`${item.replaceAll('PNG', 'png')}`} alt="insta" />
 									</SwiperSlide>
 								)}
 							</Swiper>
@@ -162,8 +162,8 @@ const CategoryCard = ({ bool, item }) => {
 							</Swiper>
 						}
 					</div>
-					<div className={classes.cardTitle}>{item.name}</div>
-					<div className={classes.cardPrice}>{item.old_price}  {item.new_price}</div>
+					<div className={classes.cardTitle}>{item.name.length > 30 ? item.name.slice(1, 27) + "..." : item.name}</div>
+					<div className={classes.cardPrice}><span style={{ textDecoration: 'line-through' }}>{item.old_price}</span> / {item.new_price}</div>
 					<div className={classes.cardDiscount}></div>
 					<div className={classes.cardDiscountPercent}>{item.discount_amount}%</div>
 					<div className={classes.cardViewed}>

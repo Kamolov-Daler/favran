@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	slideItem: {
 		width: '100%',
-		maxHeight: '250px',
+		height: '250px',
 		backgroundColor: '#707070',
 		border: '1px solid #707070',
 		boxSizing: 'border-box',
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'hidden',
 		'& img': {
 			width: '100%',
+			height: '100%',
 		}
 	},
 	categoryBlock: {
@@ -127,7 +128,7 @@ const Main = () => {
 	const slideList = banners.map((item, idx) => (
 		<SwiperSlide key={idx}>
 			<div className={classes.slideItem}>
-				<img src={`${imgUrl}${item.image_name.replaceAll('PNG', 'png')}`} alt={item.image_name} />
+				<img src={`${item.image_name.replaceAll('PNG', 'png')}`} alt={item.image_name} />
 			</div>
 		</SwiperSlide>
 	));

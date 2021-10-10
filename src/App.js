@@ -5,10 +5,12 @@ import Footer from './components/Footer/Footer'
 import Main from './components/Main/Main'
 import { makeStyles } from "@mui/styles";
 import Category from './components/Category/Category';
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Alert, Backdrop, CircularProgress } from '@mui/material';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getMainInfo, SET_BANNERS, SET_TOP_CATEGORIES_WITH_GOODS } from './store/action/main';
+import Search from './components/Search/Search';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,6 +64,14 @@ function App() {
 					</Route>
 					<Route path={`/:name/:id`} exact>
 						<Category />
+					</Route>
+					<Route path={`/search`} exact>
+						<Search />
+					</Route>
+					<Route path="*">
+						<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 50 }}>
+							<Alert severity="warning">Страница не найдено</Alert>
+						</div>
 					</Route>
 				</Switch>
 				<Footer />

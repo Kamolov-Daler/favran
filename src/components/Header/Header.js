@@ -1,7 +1,7 @@
 import { Button, Divider, Drawer, Grid, List, ListItem, ListItemText, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../../assets/logo.svg";
 import { shallowEqual, useSelector } from 'react-redux';
 import { Box } from '@mui/system';
-import { FilterList, Search } from '@mui/icons-material';
+import { Close, Search } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-		flexDirection: 'column !important'
+		flexDirection: 'column !important',
 	},
 	search: {
 		width: '90%',
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	logo: {
+		paddingTop: 5,
 		cursor: 'pointer',
 	},
 	navItem: {
@@ -78,6 +79,11 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up("md")]: {
 			flexDirection: 'row',
 		},
+	},
+	searchIcon: {
+		position: 'absolute',
+		top: 20,
+		right: 20,
 	}
 }));
 
@@ -105,19 +111,25 @@ const Header = () => {
 		setVal({ ...val, [anchor]: open });
 	};
 
+	const closeFilterBlock = () => {
+		if (filterActive) {
+			setFilterActive(false);
+		}
+	}
+
 	const searchGoods = () => {
-		let str = "";
+		let str = "?";
 		if (name.trim()) {
-			str += '?name=' + name
+			str += 'query=' + name
 		}
 		if (discountAmount > 0) {
-			str += '&discount_amount' + discountAmount
+			str += '&discount_amount=' + discountAmount
 		}
 		if (minPrice > 0) {
-			str += '&min_price' + minPrice
+			str += '&min_price=' + minPrice
 		}
 		if (maxPrice > 0) {
-			str += '&max_price' + maxPrice
+			str += '&max_price=' + maxPrice
 		}
 
 		history.push(`/search${str}`);
@@ -133,7 +145,7 @@ const Header = () => {
 			onKeyDown={toggleDrawer(anchor, false)}
 		>
 			<List>
-				<div className={classes.navItem}>
+				<div className={classes.navItem} onClick={closeFilterBlock}>
 					<NavLink to={`/`} exact>
 						<ListItem button>
 							<ListItemText>Главная</ListItemText>
@@ -142,7 +154,7 @@ const Header = () => {
 					<Divider />
 				</div>
 				{categories.map((item, idx) =>
-					<div key={idx} className={classes.navItem}>
+					<div key={idx} className={classes.navItem} onClick={closeFilterBlock}>
 						<NavLink to={`/${item.name}/${item.id}`} exact>
 							<ListItem button>
 								<ListItemText>{item.name}</ListItemText>
@@ -155,6 +167,16 @@ const Header = () => {
 		</div>
 	);
 
+
+
+	useEffect(() => {
+		if (history.location.pathname === "/search") return
+		setName("");
+		setDiscountAmount("");
+		setMinPrice("");
+		setMaxPrice("");
+	}, [history.location.pathname])
+
 	return (
 		<Grid container className={classes.headerContainer}>
 			<div className={classes.burgerMenu}>
@@ -162,30 +184,36 @@ const Header = () => {
 					<MenuIcon color="primary" />
 				</IconButton>
 			</div>
-			<div className={classes.logo} onClick={() => history.push('/')}>
+			<div className={classes.logo} onClick={() => { history.push('/'); setName(""); closeFilterBlock(); setDiscountAmount(""); setMinPrice(""); setMaxPrice(""); }}>
 				<img src={logo} alt={`logo`} width={80} height={80} />
 			</div>
-			<div className={classes.search}>
-				<Box mb={3} className={classes.buttonGroup}>
-					<Grid>
-						<TextField fullWidth id="standard-basic" value={name} onChange={(e) => setName(e.target.value)} label="Название" variant="filled" />
-						{filterActive ?
-							<>
-								<TextField fullWidth id="standard-basic" value={discountAmount} onChange={e => setDiscountAmount(e.target.value)} type="number" label="Процент скидки" variant="filled" />
-								<TextField id="standard-basic" type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} label="Цена от" variant="filled" />
-								<TextField id="standard-basic" type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} label="Цена до" variant="filled" />
-							</>
-							: null
-						}
-					</Grid>
-					<Button variant="contained" disabled={name.trim() || discountAmount > 0 || minPrice > 0 || maxPrice > 0 ? false : true} onClick={searchGoods}>
-						<Search />
-					</Button>
-					<Button variant='contained' onClick={() => setFilterActive(!filterActive)}>
-						<FilterList />
-					</Button>
-				</Box>
+			<div className={classes.searchIcon}>
+				{filterActive ?
+					<IconButton onClick={() => setFilterActive(false)}>
+						<Close color="primary" />
+					</IconButton>
+					:
+					<IconButton onClick={() => setFilterActive(true)}>
+						<Search color="primary" />
+					</IconButton>
+				}
 			</div>
+			{filterActive ?
+				<div className={classes.search}>
+					<Box mb={3} className={classes.buttonGroup}>
+						<Grid>
+							<TextField fullWidth id="standard-basic" value={name} onChange={(e) => setName(e.target.value)} label="Название товара" variant="filled" />
+							<TextField fullWidth id="standard-basic" value={discountAmount} onChange={e => setDiscountAmount(e.target.value)} type="number" label="Процент скидки" variant="filled" />
+							<TextField id="standard-basic" type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} label="Цена от" variant="filled" />
+							<TextField id="standard-basic" type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} label="Цена до" variant="filled" />
+						</Grid>
+						<Button variant="contained" disabled={name.trim() || discountAmount > 0 || minPrice > 0 || maxPrice > 0 ? false : true} onClick={searchGoods}>
+							<Search />
+						</Button>
+					</Box>
+				</div>
+				: null
+			}
 			<Drawer anchor={"left"} open={val["left"]} onClose={toggleDrawer("left", false)}>
 				{list("left")}
 			</Drawer>

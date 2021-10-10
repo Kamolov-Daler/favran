@@ -90,12 +90,12 @@ const MainCard = ({ item }) => {
 		<div className={classes.cardContainer}>
 			<div className={classes.cardImg}>
 				{item.images ?
-					<img src={`${imgUrl}${item.images[0].replaceAll('PNG', 'png')}`} alt="insta" />
+					<img src={`${item.images[0].replaceAll('PNG', 'png')}`} alt="insta" />
 					: <img src={logo} alt="insta" />
 				}
 			</div>
-			<div className={classes.cardTitle}>{item.name}</div>
-			<div className={classes.cardPrice}>{item.old_price}  {item.new_price}</div>
+			<div className={classes.cardTitle}>{item.name.length > 30 ? item.name.slice(1, 27) + "..." : item.name}</div>
+			<div className={classes.cardPrice}><span style={{ textDecoration: 'line-through' }}>{item.old_price}</span> / {item.new_price}</div>
 			<div className={classes.cardDiscount}></div>
 			<div className={classes.cardDiscountPercent}>{item.discount_amount}%</div>
 			<div className={classes.cardViewed}>
