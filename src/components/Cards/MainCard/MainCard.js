@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 		height: 270,
 		width: 200,
 		borderRadius: 8,
-		border: '1px solid rgba(81, 81, 81, 0.56)',
 		position: 'relative',
 		overflow: 'hidden',
 		background: '#f5f5f5',

@@ -1,0 +1,38 @@
+[debug] [2021-10-11T06:07:55.154Z] ----------------------------------------------------------------------
+[debug] [2021-10-11T06:07:55.156Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\KamolovD\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js login --reauth
+[debug] [2021-10-11T06:07:55.156Z] CLI Version:   9.20.0
+[debug] [2021-10-11T06:07:55.157Z] Platform:      win32
+[debug] [2021-10-11T06:07:55.157Z] Node Version:  v14.17.1
+[debug] [2021-10-11T06:07:55.157Z] Time:          Mon Oct 11 2021 11:07:55 GMT+0500 (Uzbekistan Standard Time)
+[debug] [2021-10-11T06:07:55.158Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=419461062&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+[info] 
+[info] Waiting for authentication...
+[debug] [2021-10-11T06:08:40.076Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ {"code":"4/0AX4XfWgnTxd4SB5ipFPCDMD87pukOGDAaiIxdqirB5Gb9ejyb206z1NKqGKpB-KTuq6WZQ","client_id":"563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com","client_secret":"j9iVZfS8kkCEFUPaAeJV0sAi","redirect_uri":"http://localhost:9005","grant_type":"authorization_code"}
+[debug] [2021-10-11T06:08:46.869Z] Token Fetch Error: FirebaseError: Server Error. tunneling socket could not be established, cause=getaddrinfo ENOTFOUND 4480
+    at Request._callback (C:\Users\KamolovD\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:32:31)
+    at self.callback (C:\Users\KamolovD\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:375:28)
+    at Request.emit (domain.js:470:12)
+    at Request.onRequestError (C:\Users\KamolovD\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:877:8)
+    at ClientRequest.emit (events.js:375:28)
+    at ClientRequest.emit (domain.js:470:12)
+    at ClientRequest.onError (C:\Users\KamolovD\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\tunnel-agent\index.js:179:21)
+    at Object.onceWrapper (events.js:482:26)
+    at ClientRequest.emit (events.js:375:28)
+    at ClientRequest.emit (domain.js:470:12)
+    at Socket.socketErrorListener (_http_client.js:475:9)
+    at Socket.emit (events.js:375:28)
+    at Socket.emit (domain.js:470:12)
+    at emitErrorNT (internal/streams/destroy.js:106:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:74:3)
+[info] 
+[info] Visit this URL on any device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=419461062&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob
+[info] 
+[debug] [2021-10-11T08:16:48.750Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ {"code":"asd","client_id":"563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com","client_secret":"j9iVZfS8kkCEFUPaAeJV0sAi","redirect_uri":"urn:ietf:wg:oauth:2.0:oob","grant_type":"authorization_code"}

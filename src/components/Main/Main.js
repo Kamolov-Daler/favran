@@ -30,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	slideItem: {
 		width: '100%',
-		height: '250px',
-		backgroundColor: '#707070',
-		border: '1px solid #707070',
 		boxSizing: 'border-box',
 		borderRadius: '10px',
 		overflow: 'hidden',
