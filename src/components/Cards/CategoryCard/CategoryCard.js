@@ -7,7 +7,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import SwiperCore, { Navigation, Pagination, Autoplay, Scrollbar, Keyboard } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { imgUrl } from '../../../config';
-import '../../../App.css'
 
 import styles from '../Card.module.css'
 
@@ -145,7 +144,7 @@ const CategoryCard = ({ bool, item }) => {
 				<div className={classes.cardContainer}>
 					<div>
 						{item.images?.length ?
-							<Swiper {...options}>
+							<Swiper {...options} >
 								{item.images.map((item, idx) =>
 									<SwiperSlide key={idx} className={classes.cardImg}>
 										<img src={`${item.replaceAll('PNG', 'png')}`} alt="insta" />

@@ -31,6 +31,9 @@
     justify-content: center;
     align-items:center;
     transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+    -moz-transition: 1s all ease;
+    -o-transition: 1s all ease;
     backface-visibility: hidden; /*скрываем тыльную часть карточки, это нужно что бы не видеть тыльную часть после поворота на 180 градусов*/
     border-radius: 20px;
 }
@@ -45,29 +48,53 @@
     justify-content: center;
     align-items:center;
     transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+    -moz-transition: 1s all ease;
+    -o-transition: 1s all ease;
     backface-visibility: hidden; /*скрываем тыльную часть карточки, это нужно что бы не видеть тыльную часть после поворота на 180 градусов*/
     border-radius: 20px;
 } 
 
 .front {
 	-webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    transform: rotateY(0deg);
 	background: '#f5f5f5';
 }
 
 .back{
     background-color: #BDBDBD;
     -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 
 .frontActive{
 	background: '#f5f5f5';
 	-webkit-transform: rotateY(180deg);
-	        transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 .backActive {
 	background-color: #BDBDBD;
 	-webkit-transform: rotateY(360deg);
-	        transform: rotateY(360deg);
+	-o-transform: rotateY(360deg);
+	-moz-transform: rotateY(360deg);
+	transform: rotateY(360deg);
 }
+
+.swiper-wrapper {
+	padding-bottom: 40px !important;
+}
+
+.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+	bottom: 15px !important
+}
+
+.swiper-pagination-bullet-active {
+	background-color: #515151 !important;
+}
+

@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getMainInfo, SET_BANNERS, SET_CATEGORIES, SET_TOP_CATEGORIES_WITH_GOODS } from '../../store/action/main';
 import { imgUrl } from '../../config';
+import { SET_SELECT_ITEM } from "../../store/action/categories";
 
 // install Swiper components
 SwiperCore.use([Navigation, Pagination, Autoplay, Scrollbar, Keyboard]);
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		aligntItems: 'center',
+		padding: "30px 0",
 	},
 	parentContainer: {
 		paddingBottom: 40,
@@ -65,6 +67,8 @@ const useStyles = makeStyles((theme) => ({
 const Main = () => {
 	const classes = useStyles();
 	const { banners, topCategories } = useSelector((state) => state.mainReducer, shallowEqual);
+	const { itemSelect, cardsList } = useSelector((state) => state.categoriesReducer, shallowEqual)
+	const dispatch = useDispatch();
 
 	const options = {
 		autoplay: { delay: 5000 },
@@ -130,6 +134,11 @@ const Main = () => {
 		</SwiperSlide>
 	));
 
+	useEffect(() => {
+		return () => {
+			dispatch({ type: SET_SELECT_ITEM, payload: 0 })
+		}
+	}, [])
 
 	return (
 		<Container className={classes.parentContainer}>
@@ -147,7 +156,7 @@ const Main = () => {
 								<Swiper {...cardOptionsAnother(item.goods.length)} centeredSlides={false} className="mySwiper">
 									{item.goods.map((item, idx) =>
 										<SwiperSlide key={idx} className={classes.categoryElem}>
-											<MainCard item={item} />
+											<MainCard bool={item.id === itemSelect ? true : false} item={item} />
 										</SwiperSlide>
 									)}
 								</Swiper>
@@ -155,7 +164,7 @@ const Main = () => {
 								<Swiper {...cardOptions} className="mySwiper">
 									{item.goods.map((item, idx) =>
 										<SwiperSlide key={idx} className={classes.categoryElem}>
-											<MainCard item={item} />
+											<MainCard bool={item.id === itemSelect ? true : false} item={item} />
 										</SwiperSlide>
 									)}
 								</Swiper>
