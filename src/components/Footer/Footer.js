@@ -11,7 +11,6 @@ import { getSocialList } from '../../store/action/main';
 const useStyles = makeStyles((theme) => ({
 	footerContainer: {
 		backgroundColor: "#F4F4F4",
-		border: "1px solid #707070",
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',

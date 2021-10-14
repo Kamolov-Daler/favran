@@ -10,6 +10,7 @@ import logo from "../../assets/logo.svg";
 import { shallowEqual, useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import { Close, Search } from '@mui/icons-material';
+import '../../App.css'
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -20,20 +21,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 	burgerMenu: {
 		position: 'absolute',
-		top: 20,
-		left: 20,
+		top: 10,
+		left: 10,
 	},
 	headerContainer: {
 		backgroundColor: "#F4F4F4",
-		borderBottom: "1px solid #707070",
 		borderTop: 'none',
 		position: "relative",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 		flexDirection: 'column !important',
+		minHeight: 60,
 	},
 	search: {
+		paddingTop: '100px',
 		width: '90%',
 		display: 'flex',
 		justifyContent: 'center',
@@ -44,6 +46,16 @@ const useStyles = makeStyles((theme) => ({
 	logo: {
 		paddingTop: 5,
 		cursor: 'pointer',
+		position: 'absolute',
+		top: '-10px',
+		backgroundColor: '#F4F4F4',
+		borderRadius: '50px',
+		'& img': {
+			marginTop: 10,
+			width: 100,
+			height: 80,
+		}
+
 	},
 	navItem: {
 		'& a': {
@@ -82,8 +94,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	searchIcon: {
 		position: 'absolute',
-		top: 20,
-		right: 20,
+		top: 10,
+		right: 10,
 	}
 }));
 
@@ -178,13 +190,13 @@ const Header = () => {
 	}, [history.location.pathname])
 
 	return (
-		<Grid container className={classes.headerContainer}>
+		<Grid container className={`${classes.headerContainer} header-container`}>
 			<div className={classes.burgerMenu}>
 				<IconButton disabled={categories.length > 1 ? false : true} onClick={toggleDrawer("left", true)} >
 					<MenuIcon color="primary" />
 				</IconButton>
 			</div>
-			<div className={classes.logo} onClick={() => { history.push('/'); setName(""); closeFilterBlock(); setDiscountAmount(""); setMinPrice(""); setMaxPrice(""); }}>
+			<div className={`${classes.logo} ${filterActive ? '' : 'header-logo'}`} onClick={() => { history.push('/'); setName(""); closeFilterBlock(); setDiscountAmount(""); setMinPrice(""); setMaxPrice(""); }}>
 				<img src={logo} alt={`logo`} width={80} height={80} />
 			</div>
 			<div className={classes.searchIcon}>

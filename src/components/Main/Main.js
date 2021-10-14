@@ -87,7 +87,7 @@ const Main = () => {
 
 	const cardOptions = {
 		autoplay: { delay: 5000 },
-		slidesPerView: 1,
+		slidesPerView: 1.5,
 		spaceBetween: 30,
 		scrollbar: {
 			hide: true,
@@ -98,33 +98,15 @@ const Main = () => {
 			},
 			750: {
 				slidesPerView: 4,
+				spaceBetween: 80,
 			},
 			500: {
 				slidesPerView: 2,
+				spaceBetween: 50,
 			}
 		},
 	}
-	const cardOptionsAnother = (len) => {
-		return {
-			autoplay: { delay: 5000 },
-			spaceBetween: 30,
-			slidesPerView: 1,
-			scrollbar: {
-				hide: true,
-			},
-			breakpoints: {
-				993: {
-					slidesPerView: len,
-				},
-				750: {
-					slidesPerView: len > 1 ? len - 1 : len,
-				},
-				500: {
-					slidesPerView: len > 2 ? len - 2 : len,
-				}
-			},
-		}
-	}
+
 
 	const slideList = banners.map((item, idx) => (
 		<SwiperSlide key={idx}>
@@ -152,23 +134,13 @@ const Main = () => {
 					return <div className={classes.categoryBlock} key={item.category.id}>
 						<h1 className={classes.categoryBlockTitle}>{item.category.name}</h1>
 						<div className={`${classes.categoryElemList} card-scroll`}>
-							{item.goods.length < 5 ?
-								<Swiper {...cardOptionsAnother(item.goods.length)} centeredSlides={false} className="mySwiper">
-									{item.goods.map((item, idx) =>
-										<SwiperSlide key={idx} className={classes.categoryElem}>
-											<MainCard bool={item.id === itemSelect ? true : false} item={item} />
-										</SwiperSlide>
-									)}
-								</Swiper>
-								:
-								<Swiper {...cardOptions} className="mySwiper">
-									{item.goods.map((item, idx) =>
-										<SwiperSlide key={idx} className={classes.categoryElem}>
-											<MainCard bool={item.id === itemSelect ? true : false} item={item} />
-										</SwiperSlide>
-									)}
-								</Swiper>
-							}
+							<Swiper {...cardOptions} className="mySwiper">
+								{item.goods.map((item, idx) =>
+									<SwiperSlide key={idx} className={classes.categoryElem}>
+										<MainCard bool={item.id === itemSelect ? true : false} item={item} />
+									</SwiperSlide>
+								)}
+							</Swiper>
 						</div>
 					</div>
 				}
