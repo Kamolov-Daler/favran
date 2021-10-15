@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/favran.svg";
 import { shallowEqual, useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import { Close, Search } from '@mui/icons-material';
@@ -43,17 +43,18 @@ const useStyles = makeStyles((theme) => ({
 			width: '40%',
 		},
 	},
+
 	logo: {
 		paddingTop: 5,
 		cursor: 'pointer',
 		position: 'absolute',
-		top: '-35px',
+		top: '-15px',
 		// backgroundColor: '#F4F4F4',
 		borderRadius: '50px',
 		'& img': {
 			marginTop: 10,
-			width: 180,
-			height: 140,
+			width: 150,
+			height: 85,
 		}
 
 	},
