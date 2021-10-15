@@ -69,6 +69,21 @@ const Main = () => {
 	const { banners, topCategories } = useSelector((state) => state.mainReducer, shallowEqual);
 	const { itemSelect, cardsList } = useSelector((state) => state.categoriesReducer, shallowEqual)
 	const dispatch = useDispatch();
+	const test = {
+		Views: 13,
+		category_id: 5,
+		discount_amount: 10,
+		id: 28,
+		images: ["https://i.ibb.co/Jz9WPWp/shirts-3-1.jpg", "https://i.ibb.co/Jz9WPWp/shirts-3-2.jpg"],
+		is_top: true,
+		name: "Футболка (Турция)",
+		new_price: 315,
+		old_price: 350,
+		shop_address: "Улица Пушкина 55",
+		shop_name: "Аличон",
+		shop_phone: "+992987654321",
+	}
+
 
 	const options = {
 		autoplay: { delay: 5000 },
@@ -85,28 +100,31 @@ const Main = () => {
 		},
 	};
 
-	const cardOptions = {
-		autoplay: { delay: 5000 },
-		slidesPerView: 1.5,
-		spaceBetween: 30,
-		scrollbar: {
-			hide: true,
-		},
-		breakpoints: {
-			993: {
-				slidesPerView: 5,
+	const cardOptions = (len) => {
+		return {
+			autoplay: { delay: 5000 },
+			slidesPerView: len > 2 ? 1.5 : len,
+			spaceBetween: 30,
+			scrollbar: {
+				hide: true,
 			},
-			750: {
-				slidesPerView: 4,
-				spaceBetween: 80,
+			breakpoints: {
+				1080: {
+					slidesPerView: len >= 5 ? 5 : len,
+				},
+				900: {
+					slidesPerView: len >= 4 ? 4 : len,
+				},
+				800: {
+					slidesPerView: len >= 3 ? 3 : len,
+				},
+				500: {
+					slidesPerView: len >= 2 ? 2 : len,
+				}
 			},
-			500: {
-				slidesPerView: 2,
-				spaceBetween: 50,
-			}
-		},
-	}
+		}
 
+	}
 
 	const slideList = banners.map((item, idx) => (
 		<SwiperSlide key={idx}>
@@ -134,7 +152,7 @@ const Main = () => {
 					return <div className={classes.categoryBlock} key={item.category.id}>
 						<h1 className={classes.categoryBlockTitle}>{item.category.name}</h1>
 						<div className={`${classes.categoryElemList} card-scroll`}>
-							<Swiper {...cardOptions} className="mySwiper">
+							<Swiper {...cardOptions(item.goods.length)} className="mySwiper">
 								{item.goods.map((item, idx) =>
 									<SwiperSlide key={idx} className={classes.categoryElem}>
 										<MainCard bool={item.id === itemSelect ? true : false} item={item} />
