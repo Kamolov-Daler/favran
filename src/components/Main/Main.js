@@ -109,10 +109,10 @@ const Main = () => {
 				hide: true,
 			},
 			breakpoints: {
-				1080: {
+				1180: {
 					slidesPerView: len >= 5 ? 5 : len,
 				},
-				900: {
+				950: {
 					slidesPerView: len >= 4 ? 4 : len,
 				},
 				800: {

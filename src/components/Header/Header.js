@@ -47,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: 5,
 		cursor: 'pointer',
 		position: 'absolute',
-		top: '-10px',
-		backgroundColor: '#F4F4F4',
+		top: '-35px',
+		// backgroundColor: '#F4F4F4',
 		borderRadius: '50px',
 		'& img': {
 			marginTop: 10,
-			width: 100,
-			height: 80,
+			width: 180,
+			height: 140,
 		}
 
 	},
